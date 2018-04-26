@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/passport', function () {
     $query = http_build_query([
-        'client_id'     => '6',
+        'client_id'     => env('OAUTH_CLIENT_ID'),
         'redirect_uri'  => env('APP_URL') . 'callback',
         'response_type' => 'code',
         'scope'         => 'profile private',
@@ -34,8 +34,8 @@ Route::get('/callback', function (Request $request) {
     $response = $http->post(env('OAUTH_SERVER') . 'oauth/token', [
         'form_params' => [
             'grant_type'    => 'authorization_code',
-            'client_id'     => '6',
-            'client_secret' => 'quSy6tXQosoGOj2eAO6XACWycQbqvNdJ1ivhXUIz',
+            'client_id'     => env('OAUTH_CLIENT_ID'),
+            'client_secret' => env('OAUTH_CLIENT_SECRET'),
             'redirect_uri'  => env('APP_URL') . 'callback',
             'code'          => $request->code,
         ],
