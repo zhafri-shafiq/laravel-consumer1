@@ -19,24 +19,24 @@ Route::get('/', function () {
 
 Route::get('/passport', function () {
     $query = http_build_query([
-        'client_id'     => '4',
-        'redirect_uri'  => 'http://sunny.test/callback',
+        'client_id'     => '6',
+        'redirect_uri'  => env('APP_URL') . 'callback',
         'response_type' => 'code',
         'scope'         => 'profile private',
     ]);
 
-    return redirect('http://passport.test/oauth/authorize?' . $query);
+    return redirect(env('OAUTH_SERVER') . 'oauth/authorize?' . $query);
 })->name('login.passport');
 
 Route::get('/callback', function (Request $request) {
     $http = new GuzzleHttp\Client;
 
-    $response = $http->post('http://passport.test/oauth/token', [
+    $response = $http->post(env('OAUTH_SERVER') . 'oauth/token', [
         'form_params' => [
             'grant_type'    => 'authorization_code',
-            'client_id'     => '4',
-            'client_secret' => 'tqAugtxAFcihIFSeo0oT6MN1dqag9drVgO0FOSeW',
-            'redirect_uri'  => 'http://sunny.test/callback',
+            'client_id'     => '6',
+            'client_secret' => 'quSy6tXQosoGOj2eAO6XACWycQbqvNdJ1ivhXUIz',
+            'redirect_uri'  => env('APP_URL') . 'callback',
             'code'          => $request->code,
         ],
     ]);
